@@ -310,14 +310,15 @@ def Query_TaskTable(task):
 		desc = cursor.description
 		#print "%-2s %-17s %-10s %-10s %-20s %-10s %-10s" % (desc[0][0].strip(), desc[1][0].strip(), desc[2][0].strip(), desc[3][0].strip(), desc[4][0], desc[5][0], desc[6][0])
 		#print (desc[0][0].center(2) +  desc[1][0].center(20) + desc[2][0].center(20) + desc[3][0].center(10) +  desc[4][0].center(20) + desc[5][0].center(10)+ str(desc[6][0]).center(10))
-		print (desc[0][0].rjust(2) +  desc[1][0].rjust(20) + desc[2][0].rjust(20) )
+		print (desc[0][0].rjust(2) +  desc[1][0].rjust(20) + desc[2][0].rjust(20) + desc[3][0].rjust(4) )
 		print "\n=========================================================================================\n"
 		for row in cursor.fetchall():
 			task=row[0]
 			lastdatetobedone=row[1]
 			comment = row[2]
+			id = str(row[3])
 			#print (str(id).center(2) +  account_name.center(20) + account_type.center(20) + owner.center(10) +  duedate.center(20) + apr.center(10) + str(balance).center(5))
-			print (task.rjust(2) +  lastdatetobedone.rjust(20) + comment.rjust(20) )
+			print (task.rjust(2) +  lastdatetobedone.rjust(20) + comment.rjust(20) + id.rjust(4) )
 			query_all_list.append(row)
 	except MySQLdb.Error as e:
 		print(e)
@@ -325,12 +326,12 @@ def Query_TaskTable(task):
 	#db.close()
 	#print('Account_Name :' + account_name + '\nOwner \nduedate : ' + duedate + '\nAPR :' + apr + '\nBalance :' + str(balance))
 	
-def Delete_TaskTable(task):
+def Delete_TaskTable(taskid):
 
 	cursor = db.cursor()
-	sql = "Delete from thingstodo where task=%s"
-	args = (task)
-	print ('in delete thingstodo table function')
+	sql = "Delete from thingstodo where id=%s"
+	args = (taskid)
+	print ('in delete thingstodo table function for taskid ' + taskid)
 	try:
 		# Execute the SQL command
 		print " in delete execute "
@@ -410,7 +411,7 @@ def main():
 		else:
 			assert False, "unhandled option"
 		 
-		#lif o == "-a
+		#lif o == "-aor
 		#adding account=true
 		#	adding account=true
         #else:
